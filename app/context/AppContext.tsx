@@ -36,6 +36,7 @@ export type StoreContextValue = {
   increaseQty: (id: number) => void;
   decreaseQty: (id: number) => void;
   removeFromCart: (id: number) => void;
+  total: number;
 };
 
 export const StoreContext = createContext<StoreContextValue | undefined>(
@@ -70,6 +71,14 @@ export const StoreProvider = ({ children }: { children: ReactNode }) => {
     setCart((prev) => prev.filter((item) => item.id !== id));
   };
 
+  const parsePrice = (price: string) => parseFloat(price.replace("$", ""));
+
+  // calculate total
+  const total = cart.reduce(
+    (sum, item) => sum + parsePrice(item.price) * item.quantity,
+    0,
+  );
+
   return (
     <StoreContext.Provider
       value={{
@@ -80,6 +89,7 @@ export const StoreProvider = ({ children }: { children: ReactNode }) => {
         increaseQty,
         decreaseQty,
         removeFromCart,
+        total,
       }}
     >
       {children}

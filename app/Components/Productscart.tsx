@@ -77,7 +77,7 @@ const Productscart: React.FC = () => {
 
               <div className="flex justify-between items-center mt-2">
                 <p className="text-sm font-semibold text-gray-700">
-                  ₹{item.price}
+                  {item.price}
                 </p>
 
                 <button className="px-4 py-1 text-gray-600 font-semibold rounded-2xl text-sm border border-gray-200 hover:bg-gray-100 transition">

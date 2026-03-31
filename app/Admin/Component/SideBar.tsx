@@ -15,10 +15,14 @@ export default function SideBar() {
   ];
 
   return (
-    <div className="w-64 bg-gray-900 text-white p-5 min-h-screen">
-      <h2 className="text-xl font-bold mb-8">Admin Panel</h2>
+    <div className="flex flex-col w-64 bg-gray-900 text-white min-h-screen">
+      {/* Header */}
+      <div className="p-5">
+        <h2 className="text-xl font-bold mb-8">Admin Panel</h2>
+      </div>
 
-      <ul className="space-y-2">
+      {/* Menu */}
+      <ul className="flex-1 px-5 space-y-2">
         {menu.map((item) => (
           <li key={item.path}>
             <Link
@@ -35,9 +39,10 @@ export default function SideBar() {
         ))}
       </ul>
 
-      <div className="b-5 text-white">
-        <br className="text-white" />
-        <p>Admin pannel</p>
+      {/* Footer */}
+      <div className="p-5 border-t border-gray-700 text-gray-400 text-sm">
+        <p>© 2026 My E-Commerce Admin</p>
+        <p>All rights reserved</p>
       </div>
     </div>
   );

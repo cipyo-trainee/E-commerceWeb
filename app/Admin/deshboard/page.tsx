@@ -1,12 +1,7 @@
 "use client";
 
 import React from "react";
-import {
-  FiShoppingCart,
-  FiUsers,
-  FiBarChart2,
-  FiBox,
-} from "react-icons/fi";
+import { FiShoppingCart, FiUsers, FiBarChart2, FiBox } from "react-icons/fi";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -31,7 +26,7 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  ArcElement // ✅ Required for Pie/Doughnut
+  ArcElement,
 );
 
 // ---------------- Type Definitions ----------------
@@ -53,10 +48,30 @@ interface Product {
 const Dashboard: React.FC = () => {
   // ---------------- Stats Cards ----------------
   const stats: Stat[] = [
-    { title: "Total Orders", value: 1245, icon: <FiShoppingCart size={24} />, color: "bg-blue-500" },
-    { title: "Revenue", value: "₹1,24,500", icon: <FiBarChart2 size={24} />, color: "bg-green-500" },
-    { title: "Users", value: 532, icon: <FiUsers size={24} />, color: "bg-yellow-500" },
-    { title: "Products", value: 128, icon: <FiBox size={24} />, color: "bg-purple-500" },
+    {
+      title: "Total Orders",
+      value: 1245,
+      icon: <FiShoppingCart size={24} />,
+      color: "bg-blue-500",
+    },
+    {
+      title: "Revenue",
+      value: "₹1,24,500",
+      icon: <FiBarChart2 size={24} />,
+      color: "bg-green-500",
+    },
+    {
+      title: "Users",
+      value: 532,
+      icon: <FiUsers size={24} />,
+      color: "bg-yellow-500",
+    },
+    {
+      title: "Products",
+      value: 128,
+      icon: <FiBox size={24} />,
+      color: "bg-purple-500",
+    },
   ];
 
   // ---------------- Latest Products ----------------
@@ -69,11 +84,24 @@ const Dashboard: React.FC = () => {
 
   // ---------------- Sales Line Chart ----------------
   const salesData: ChartData<"line"> = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct"],
+    labels: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+    ],
     datasets: [
       {
         label: "Sales (₹)",
-        data: [12000, 15000, 10000, 20000, 18000, 22000, 24000, 20000, 23000, 25000],
+        data: [
+          12000, 15000, 10000, 20000, 18000, 22000, 24000, 20000, 23000, 25000,
+        ],
         borderColor: "#3B82F6",
         backgroundColor: "rgba(59,130,246,0.2)",
         tension: 0.4,
@@ -86,25 +114,22 @@ const Dashboard: React.FC = () => {
 
   const salesOptions: ChartOptions<"line"> = {
     responsive: true,
+    maintainAspectRatio: false, // ✅ allows chart to fill container
     plugins: {
       legend: { position: "top" },
-      title: { display: true, text: "Monthly Sales Overview", font: { size: 18 } },
+      title: {
+        display: true,
+        text: "Monthly Sales Overview",
+        font: { size: 18 },
+      },
     },
     scales: {
       y: {
         beginAtZero: true,
-        grid: {
-          drawTicks: false,
-          border: { color: "transparent" },
-          color: "rgba(200,200,200,0.2)",
-        },
+        grid: { color: "rgba(200,200,200,0.2)" },
       },
       x: {
-        grid: {
-          drawTicks: false,
-          border: { color: "transparent" },
-          color: "rgba(200,200,200,0.2)",
-        },
+        grid: { color: "rgba(200,200,200,0.2)" },
       },
     },
   };
@@ -115,19 +140,31 @@ const Dashboard: React.FC = () => {
     datasets: [
       {
         data: [40, 25, 15, 10, 10],
-        backgroundColor: ["#3B82F6", "#F59E0B", "#10B981", "#8B5CF6", "#EF4444"],
+        backgroundColor: [
+          "#3B82F6",
+          "#F59E0B",
+          "#10B981",
+          "#8B5CF6",
+          "#EF4444",
+        ],
         borderWidth: 0,
       },
     ],
   };
 
-  // ---------------- JSX ----------------
+  const pieOptions: ChartOptions<"pie"> = {
+    responsive: true,
+    maintainAspectRatio: false, // ✅ fixes overlap issue
+    plugins: {
+      legend: { position: "right" },
+      title: { display: true, text: "Category Breakdown", font: { size: 16 } },
+    },
+  };
+
   return (
     <div className="flex h-screen bg-gray-100">
-      {/* Sidebar */}
-     
+    
 
-      {/* Main Content */}
       <main className="flex-1 p-6 overflow-auto">
         {/* Top Bar */}
         <div className="flex justify-between items-center mb-6">
@@ -149,7 +186,9 @@ const Dashboard: React.FC = () => {
               key={stat.title}
               className="bg-white rounded-xl shadow-lg p-5 flex items-center gap-4 transition transform hover:scale-105"
             >
-              <div className={`${stat.color} w-12 h-12 rounded-full flex items-center justify-center text-white`}>
+              <div
+                className={`${stat.color} w-12 h-12 rounded-full flex items-center justify-center text-white`}
+              >
                 {stat.icon}
               </div>
               <div>
@@ -163,14 +202,13 @@ const Dashboard: React.FC = () => {
         {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           {/* Sales Line Chart */}
-          <div className="bg-white rounded-xl shadow-lg p-5">
+          <div className="bg-white rounded-xl shadow-lg p-5 h-96 md:h-[400px] overflow-hidden">
             <Line data={salesData} options={salesOptions} />
           </div>
 
           {/* Category Pie Chart */}
-          <div className="bg-white rounded-xl shadow-lg p-5">
-            <h3 className="text-lg font-semibold mb-4">Category Breakdown</h3>
-            <Pie data={categoryData} />
+          <div className="bg-white rounded-xl shadow-lg p-5 h-96 md:h-[400px] overflow-hidden">
+            <Pie data={categoryData} options={pieOptions} />
           </div>
         </div>
 
@@ -190,14 +228,21 @@ const Dashboard: React.FC = () => {
               </thead>
               <tbody>
                 {products.map((p) => (
-                  <tr key={p.id} className="border-b hover:bg-gray-50 transition">
+                  <tr
+                    key={p.id}
+                    className="border-b hover:bg-gray-50 transition"
+                  >
                     <td className="py-2 px-2">{p.id}</td>
                     <td className="py-2 px-2">{p.name}</td>
                     <td className="py-2 px-2">₹{p.price}</td>
                     <td className="py-2 px-2">{p.stock}</td>
                     <td className="py-2 px-2 flex gap-2">
-                      <button className="text-blue-500 hover:underline">Edit</button>
-                      <button className="text-red-500 hover:underline">Delete</button>
+                      <button className="text-blue-500 hover:underline">
+                        Edit
+                      </button>
+                      <button className="text-red-500 hover:underline">
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 ))}

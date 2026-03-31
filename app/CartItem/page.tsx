@@ -5,15 +5,10 @@ import { useRouter } from "next/navigation";
 import { useStore } from "../context/AppContext";
 
 export default function CartPage() {
-  const { cart, increaseQty, decreaseQty, removeFromCart } = useStore();
+  const { cart, increaseQty, decreaseQty, removeFromCart, total } = useStore();
   const router = useRouter();
 
   const parsePrice = (price: string) => parseFloat(price.replace("$", ""));
-
-  const total = cart.reduce(
-    (sum, item) => sum + parsePrice(item.price) * item.quantity,
-    0,
-  );
 
   const formatPrice = (value: number) => `$${value.toFixed(2)}`;
 

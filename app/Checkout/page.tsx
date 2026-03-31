@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { useStore } from "../context/AppContext";
+import { useRouter } from "next/navigation";
 
 export default function CheckoutPage() {
-  const { cart } = useStore();
+  const { cart, setCart, total } = useStore();
+  const router = useRouter();
 
   const [form, setForm] = useState({
     name: "",
@@ -13,22 +15,34 @@ export default function CheckoutPage() {
     mobile: "",
     city: "",
     zip: "",
+    payment: "card",
   });
+
   const parsePrice = (price: string) => parseFloat(price.replace("$", ""));
-  const total = cart.reduce(
-    (sum, item) => sum + parsePrice(item.price) * item.quantity,
-    0,
-  );
+
   const formatPrice = (value: number) => `$${value.toFixed(2)}`;
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // For now just log (you can integrate payment gateway here)
+
+    // Check if all required fields are filled
+    const isFormValid = Object.values(form).every((value) => value !== "");
+    if (!isFormValid) {
+      alert("Please fill all the fields before placing the order!");
+      return;
+    }
+
+    // You can also call API here to save the order
     console.log("Order placed:", form, cart);
-    alert("Order placed successfully!");
+    
+    // Navigate to OrderSuccess page
+    router.push("/OrderSuccess");
   };
+
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4">
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10">
@@ -100,19 +114,31 @@ export default function CheckoutPage() {
 
             <div className="border rounded-lg p-4 space-y-2">
               <label className="flex items-center gap-2">
-                <input type="radio" name="payment" defaultChecked />
+                <input
+                  type="radio"
+                  name="payment"
+                  value="card"
+                  checked={form.payment === "card"}
+                  onChange={handleChange}
+                />
                 Credit / Debit Card
               </label>
 
               <label className="flex items-center gap-2">
-                <input type="radio" name="payment" />
+                <input
+                  type="radio"
+                  name="payment"
+                  value="cod"
+                  checked={form.payment === "cod"}
+                  onChange={handleChange}
+                />
                 Cash on Delivery
               </label>
             </div>
 
             <button
               type="submit"
-              className="w-full mt-6 bg-black text-white py-3 rounded-xl hover:bg-gray-800 transition"
+              className="w-full mt-6 bg-black text-white py-3 rounded-xl hover:bg-gray-800 transition font-semibold"
             >
               Place Order
             </button>
