@@ -3,6 +3,9 @@
 * {
   scroll-behavior: smooth;
 }
+.input {
+  @apply border p-3 rounded-lg w-full dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
 
 @layer base {
   input[type="number"]::-webkit-inner-spin-button,

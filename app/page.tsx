@@ -10,8 +10,8 @@ export default function Home() {
     <main>
       <HeaderSlider />
       <Productscart />
-    <FeaturedProducts/>
-    <Newsletter/>
+      <FeaturedProducts />
+      <Newsletter />
     </main>
   );
 }

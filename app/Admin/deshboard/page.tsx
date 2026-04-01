@@ -163,20 +163,13 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="flex h-screen bg-gray-100">
-    
+      {/* Sidebar can go here */}
 
       <main className="flex-1 p-6 overflow-auto">
         {/* Top Bar */}
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-semibold">Dashboard</h2>
-          <div className="flex items-center gap-4">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-            <div className="w-10 h-10 bg-gray-300 rounded-full" />
-          </div>
+         
         </div>
 
         {/* Stats Cards */}
